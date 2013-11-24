@@ -36,7 +36,9 @@ public class Dictionary {
   }
   
   public void saveDictionary(String fileName) throws IOException {
-    PrintWriter outfile = new PrintWriter (new OutputStreamReader (new FileOutputStream(fileName)));
+    PrintWriter outfile = new PrintWriter (
+      new OutputStreamReader (
+        new FileOutputStream(fileName)));
     outfile.println(dictionary.size());
     for (DictionaryEntry d: dictionary) {
       outfile.println(d.getPirateTranslation());
@@ -45,5 +47,28 @@ public class Dictionary {
     outfile.close();
   }
   
-  public void loadDictionary(String fileName)
+  public void loadDictionary(String fileName) {
+    Scanner infile = new scanner (
+      new InputStreamReader (
+        new FileInputStream(fileName)));
+    int num = infile.nextInt(); infile.nextLine();
+    for (int i=0; i<num; i++) {
+      String pirate = infile.nextLine();
+      String english = infile.nextLine();
+      DictionaryEntry newEntry = new DictionaryEntry(pirate, english);
+      dictionary.addEntry(newEntry);
+    }
+  }
+  
+  public String toString() {
+    String returnString = "List of all entries:";
+    if (dictionary.size()==0) {
+      return returnString + "\n N/A";
+    } else {
+      for (DictionaryEntry d: dictionary) {
+        returnString=returnString+"\n"+d;
+      }
+      return returnString;
+    }
+  }
 }
